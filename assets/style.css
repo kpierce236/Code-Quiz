@@ -1,0 +1,36 @@
+:root {
+    --purple: purple;
+    --lightpurp: #CBC3E3;
+}
+nav {
+    display: flex;
+    justify-content:space-between;
+}
+.high-scores {
+    color: var(--lightpurp);
+
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+.container {
+    text-align: center;
+    width: 50%;
+}
+.subject {
+    font-weight: lighter;
+}
+.startbtn {
+    background-color: var(--purple);
+    border-radius: 10px;
+    text-decoration: none;
+    padding: 10px 30px;
+    font-size: large;
+    color: white;
+}
+
+.startbtn:hover {
+    opacity: 0.5;
+}
