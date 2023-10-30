@@ -53,3 +53,10 @@ main {
 .answer-btn:hover {
     opacity: 0.5;
 }
+
+.response {
+    color: lightgray;
+    padding: 10px 50px 10px 50px;
+    
+
+}
