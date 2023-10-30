@@ -14,7 +14,7 @@ function setTime() {
       if(secondsLeft < 0) {
         // Stops execution of action at set interval
         clearInterval(timerInterval);
-        //endGame();
+        endGame();
       }
   
     }, 1000);
@@ -34,11 +34,11 @@ var selectionObject = {
     q4 : ["JavaScript","terminal/bash","for loops","console.log"] 
 }
 
-var answers = ["alerts","parenthese","all of the above","quotes","console.log"];
+var answers = ["alerts","parentheses","all of the above","quotes","console.log"];
 
 var position = 0;
 
-var score;
+var score = 0;
 
 var titleEl = document.querySelector(".title");
 var subjectEl = document.querySelector(".subject");
@@ -73,7 +73,7 @@ function nextQuestion() {
    list.innerHTML = "";
 
    if (position === 5) {
-    //endGame();
+    endGame();
    }
 
    var selection = selectionObject["q"+ position];
@@ -134,10 +134,12 @@ function wrongAnswer () {
 }
 
 function correctAnswer () {
+    score += 10;
     var correct = document.createElement("div");
     correct.textContent = "Correct!";
     correct.setAttribute("class","response");
     
+
     correctSeconds = 2;
     var timerTwo = setInterval(function() {
         list.append(correct);
@@ -153,4 +155,19 @@ function correctAnswer () {
       }, 1000);
 
 
+}
+
+function endGame() {
+    titleEl.textContent = "All done!"
+    var statementEl = document.createElement("p");
+    statementEl.textContent = "Your final score is " + score;
+    list.replaceWith(statementEl);
+    var submitEl = '<span> Enter initials: <input class="input"></input><button class="submit">Submit</button>';
+    statementEl.innerHTML = submitEl;
+
+    var submitButton = document.querySelector(".submit");
+    var intialEl = document.querySelector(".input");
+
+    submitButton.addEventListener("click", displayScores(intialEl, submitEl));
+    
 }
