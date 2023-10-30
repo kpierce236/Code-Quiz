@@ -22,17 +22,23 @@ function setTime() {
 
 startButton.addEventListener("click", setTime);
 startButton.addEventListener("click", init);
+
 //array of questions, selections, and anwsers
 
 var questions = ["Commonly used data types DO NOT include:","The condtions in an if / else statement is enclosed within ____.", "Arrays in javaScript can be used to store ____.","String values must be enclosed within _____ when being assigned to variables.","A very useful tool used during development and debugging for printing content to the debugger is:"];
-
-var q1 = ["strings", "booleans", "alerts", "numbers"];
-var q2 = ["quotes", "curly brackets", "parentheses", "square brackets"];
-var q3 = ["numbers and strings","other arrays","booleans","all of the above"];
-var q4 = ["commas","curly brackets","quotes","parenthese"];
-var q5 = ["JavaScript","terminal/bash","for loops","console.log"];
+var selectionObject = {
+    q0 : ["strings", "booleans", "alerts", "numbers"],
+    q1 : ["quotes", "curly brackets", "parentheses", "square brackets"],
+    q2 : ["numbers and strings","other arrays","booleans","all of the above"],
+    q3 : ["commas","curly brackets","quotes","parenthese"],
+    q4 : ["JavaScript","terminal/bash","for loops","console.log"] 
+}
 
 var answers = ["alerts","parenthese","all of the above","quotes","console.log"];
+
+var position = 0;
+
+var score;
 
 var titleEl = document.querySelector(".title");
 var subjectEl = document.querySelector(".subject");
@@ -45,32 +51,63 @@ function init() {
     subjectEl.setAttribute("class","answer");
     subjectEl.replaceWith(list);
 
-    titleEl.textContent = questions[0];
+    titleEl.textContent = questions[position];
     
-    for (var i = 0; i < q1.length; i++) {
+    for (var i = 0; i < selectionObject.q0.length; i++) {
        var answerBtn = document.createElement("li");
        list.appendChild(answerBtn);
        answerBtn.setAttribute("class","answer-btn");
-       answerBtn.textContent= q1[i];
+       answerBtn.textContent= selectionObject.q0[i];
 
        answerBtn.addEventListener("click", checkAnswer);
        
     };
     
 }
+// Creates the next question when you answer the previous one
+
+function nextQuestion() {
+   position += 1;
+   
+   titleEl.textContent = questions[position];
+   list.innerHTML = "";
+
+   if (position === 5) {
+    //endGame();
+   }
+
+   var selection = selectionObject["q"+ position];
+
+   for (var i = 0; i < selection.length; i++) {
+    var answerBtn = document.createElement("li");
+    list.appendChild(answerBtn);
+    answerBtn.setAttribute("class","answer-btn");
+    answerBtn.textContent= selection[i];
+
+    answerBtn.addEventListener("click", checkAnswer);
+    
+ };
+
+   
+ };
+
+
 //function checks anwser of clicked selection
 
 function checkAnswer (event) {
-    if (event.target.textContent === answers[0]) {
+    if (event.target.textContent === answers[position]) {
         correctAnswer();
+        nextQuestion();
     }
     else {
         wrongAnswer();
+        nextQuestion();
     }
 }
 
 // Function that runs when answer selected is wrong
 // Displays message and takes away 10 seconds from timer
+
 function wrongAnswer () {
     var wrong = document.createElement("div");
     wrong.textContent = "Wrong!";
