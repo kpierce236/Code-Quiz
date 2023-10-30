@@ -34,3 +34,22 @@ main {
 .startbtn:hover {
     opacity: 0.5;
 }
+
+.question {
+    text-align: left;
+
+}
+
+.answer {
+    text-align: left;
+}
+
+.answer-btn {
+    background-color: var(--purple);
+    width: 15%;
+
+}
+
+.answer-btn:hover {
+    opacity: 0.5;
+}
