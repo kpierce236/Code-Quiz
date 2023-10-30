@@ -113,7 +113,7 @@ function wrongAnswer () {
     wrong.textContent = "Wrong!";
     wrong.setAttribute("class","response");
     
-    secondsLeft = secondsLeft - 20;
+    secondsLeft = secondsLeft - 10;
 
     
     wrongSeconds = 2;
@@ -158,16 +158,29 @@ function correctAnswer () {
 }
 
 function endGame() {
+    secondsLeft = 0;
+
     titleEl.textContent = "All done!"
     var statementEl = document.createElement("p");
+    statementEl.setAttribute("style","text-align:left;")
     statementEl.textContent = "Your final score is " + score;
     list.replaceWith(statementEl);
     var submitEl = '<span> Enter initials: <input class="input"></input><button class="submit">Submit</button>';
-    statementEl.innerHTML = submitEl;
+    var containerEl = document.createElement("div");
+    statementEl.append(containerEl);
+    containerEl.setAttribute("style","margin-top:20px; text-align: left;");
+
+    containerEl.innerHTML = submitEl;
 
     var submitButton = document.querySelector(".submit");
     var intialEl = document.querySelector(".input");
 
-    submitButton.addEventListener("click", displayScores(intialEl, submitEl));
+    submitButton.addEventListener("click", function () {
+        var intial = intialEl.value;
+        localStorage.setItem("score", intial+ ": " + score);
+
+        displayHighScores();
+        
+    });
     
 }
