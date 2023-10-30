@@ -1,6 +1,8 @@
 //Start Timer
 var timeEl = document.querySelector(".timer");
 var startButton = document.querySelector(".startbtn");
+var containerEl= document.querySelector(".container");
+var viewScoresEl= document.querySelector(".high-scores");
 
 var secondsLeft = 75;
 
@@ -163,24 +165,64 @@ function endGame() {
     titleEl.textContent = "All done!"
     var statementEl = document.createElement("p");
     statementEl.setAttribute("style","text-align:left;")
-    statementEl.textContent = "Your final score is " + score;
+    statementEl.textContent = "Your final score is " + score + ".";
     list.replaceWith(statementEl);
     var submitEl = '<span> Enter initials: <input class="input"></input><button class="submit">Submit</button>';
-    var containerEl = document.createElement("div");
-    statementEl.append(containerEl);
-    containerEl.setAttribute("style","margin-top:20px; text-align: left;");
+    var submitContainerEl = document.createElement("div");
+    statementEl.append(submitContainerEl);
+    submitContainerEl.setAttribute("style","margin-top:20px; text-align: left;");
 
-    containerEl.innerHTML = submitEl;
+    submitContainerEl.innerHTML = submitEl;
 
     var submitButton = document.querySelector(".submit");
     var intialEl = document.querySelector(".input");
 
-    submitButton.addEventListener("click", function () {
+    submitButton.addEventListener ("click", function (event) {
+        event.preventDefault();
         var intial = intialEl.value;
-        localStorage.setItem("score", intial+ ": " + score);
+        localStorage.setItem(intial , intial+ ": " + score);
 
         displayHighScores();
         
     });
     
+}
+viewScoresEl.addEventListener("click",displayHighScores);
+
+function displayHighScores() {
+    secondsLeft = 0;
+    containerEl.innerHTML = '<h1 class="highscore">Highscores</h1>';
+    var highscoreTitle = document.querySelector(".highscore");
+    var scoreListEl = document.createElement("ol");
+    highscoreTitle.append(scoreListEl);
+
+    for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        var value = localStorage[key];
+
+
+        var score = document.createElement("li");
+        scoreListEl.appendChild(score);
+        score.setAttribute("class","scores");
+        score.textContent= value;
+    
+        
+     };
+
+    var btnContainer = document.createElement("div");
+    scoreListEl.append(btnContainer);
+    btnContainer.innerHTML = "<button class='back'>Go Back</button> <button class='clear'>Clear Highscores</button>";
+
+    var clearBtn = document.querySelector(".clear");
+    var backBtn = document.querySelector(".back");
+
+    clearBtn.addEventListener("click", function () {
+        localStorage.clear();
+        //scoreListEl.innerHTML = "";
+    })
+
+    backBtn.addEventListener("click", function () {
+       location.reload();
+
+    })
 }
