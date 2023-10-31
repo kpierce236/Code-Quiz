@@ -50,7 +50,7 @@ var titleEl = document.querySelector(".title");
 var subjectEl = document.querySelector(".subject");
 
 //Creates a list element to store the selections for the question in
-var list = document.createElement("ol");
+var list = document.createElement("ul");
 
 //Posts inital question when start button is clicked
 function init() {
@@ -63,6 +63,7 @@ function init() {
 
     //Replaces the subject element with the created list element declared outside the function
     subjectEl.replaceWith(list);
+    list.setAttribute("class","answer");
 
     //Sets the title element equal to the first question
     titleEl.textContent = questions[position];
@@ -119,29 +120,23 @@ function checkAnswer (event) {
 }
 
 // Function that runs when answer selected is wrong
-// Displays message and takes away 10 seconds from timer
+// Displays message, takes away 10 seconds from timer, and subtracts 4 points from score
 
 function wrongAnswer () {
     var wrong = document.createElement("div");
     wrong.textContent = "Wrong!";
     wrong.setAttribute("class","response");
-    
-    secondsLeft = secondsLeft - 10;
 
+    secondsLeft = secondsLeft - 10;
+    score = score - 4;
+    list.after(wrong);
     
-    wrongSeconds = 1;
-    var timer = setInterval(function() {
-        list.append(wrong);
-        wrongSeconds--;
+    var timer = setTimeout(function() {
+        
+      wrong.remove()
         
     
-        if(wrongSeconds === 0) {
-          // Stops execution of action at set interval
-          clearInterval(timer);
-          wrong.remove()
-        }
-    
-      }, 1000);
+      }, 500);
 
 
 }
@@ -154,21 +149,13 @@ function correctAnswer () {
     var correct = document.createElement("div");
     correct.textContent = "Correct!";
     correct.setAttribute("class","response");
-    
+    list.after(correct);
 
-    correctSeconds = 1;
-    var timerTwo = setInterval(function() {
-        list.append(correct);
-        correctSeconds--;
-        
+    var timerTwo = setTimeout(function() {
     
-        if(correctSeconds === 0) {
-          // Stops execution of action at set interval
-          clearInterval(timerTwo);
-          correct.remove()
-        }
+        correct.remove()
     
-      }, 1000);
+      }, 500);
 
 
 }
@@ -191,7 +178,7 @@ function endGame() {
     //Appends HTML to the statement element that includes an input field and submit button
     var submitEl = '<span> Enter initials: <input class="input"></input><button class="submit">Submit</button>';
     var submitContainerEl = document.createElement("div");
-    statementEl.append(submitContainerEl);
+    statementEl.after(submitContainerEl);
     submitContainerEl.setAttribute("style","margin-top:20px; text-align: left;");
 
     submitContainerEl.innerHTML = submitEl;
@@ -225,7 +212,7 @@ function displayHighScores() {
     containerEl.innerHTML = '<h1 class="highscore">Highscores</h1>';
     var highscoreTitle = document.querySelector(".highscore");
     var scoreListEl = document.createElement("ol");
-    highscoreTitle.append(scoreListEl);
+    highscoreTitle.after(scoreListEl);
 
     //for loop that goes through local storage and then posts a list element to append the score list element 
     //that contains the highscore with intial
@@ -244,7 +231,7 @@ function displayHighScores() {
 
      //creates container that holds the two curated buttons for the display highscores page
     var btnContainer = document.createElement("div");
-    scoreListEl.append(btnContainer);
+    scoreListEl.after(btnContainer);
     btnContainer.innerHTML = "<button class='back'>Go Back</button> <button class='clear'>Clear Highscores</button>";
 
     var clearBtn = document.querySelector(".clear");
@@ -253,7 +240,7 @@ function displayHighScores() {
     //when clear highscores is clicked then local sotrage is cleared
     clearBtn.addEventListener("click", function () {
         localStorage.clear();
-        //scoreListEl.innerHTML = "";
+        scoreListEl.innerHTML = "";
     })
 
     //when the back button is clicked then the browser reloads to the startpage

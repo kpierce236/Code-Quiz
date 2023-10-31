@@ -41,12 +41,16 @@ main {
 }
 
 .answer {
-    text-align: left;
+    list-style: none;
 }
 
 .answer-btn {
     background-color: var(--purple);
     width: auto;
+    text-align: center;
+    margin: 10px 0px 10px 0px;
+    border-radius: 10px;
+    color: var(--lightpurp);
 
 }
 
