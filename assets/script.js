@@ -120,7 +120,7 @@ function checkAnswer (event) {
 }
 
 // Function that runs when answer selected is wrong
-// Displays message, takes away 10 seconds from timer, and subtracts 4 points from score
+// Displays message, takes away 10 seconds from timer, and subtracts 2 points from score
 
 function wrongAnswer () {
     var wrong = document.createElement("div");
@@ -128,7 +128,12 @@ function wrongAnswer () {
     wrong.setAttribute("class","response");
 
     secondsLeft = secondsLeft - 10;
-    score = score - 4;
+    score = score - 2;
+
+    if (score < 0) {
+        score = 0;
+    }
+
     list.after(wrong);
     
     var timer = setTimeout(function() {
